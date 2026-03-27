@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language [
+    <!ENTITY bin_int "(?:[01]+(?:_[01]+)*)">
+    <!ENTITY oct_int "(?:[0-7]+(?:_[0-7]+)*)">
+    <!ENTITY dec_int "(?:[0-9]+(?:_[0-9]+)*)">
+    <!ENTITY hex_int "(?:[0-9A-Fa-f]+(?:_[0-9A-Fa-f]+)*)">
+    <!ENTITY exp_float "(?:[eE][+-]?&dec_int;)">
+    <!ENTITY exp_hexfloat "(?:[pP][-+]?&dec_int;)">
+]>
+<!-- see https://github.com/jgm/skylighting/blob/master/skylighting-core/xml/zig.xml -->
+<language name="CorrLang" section="Sources" version="4" kateversion="5.62" indenter="cstyle" extensions="*.corr" mimetype="" priority="1" author="Patrick Stünkel" license="MIT">
+    <highlighting>
+        <list name="keywords">
+            <item>view</item>
+            <item>endpoint</item>
+            <item>correspondence</item>
+        </list>
+        <list name="types">
+            <item>DATA</item>
+            <item>SERVICE</item>
+            <item>SOURCE</item>
+            <item>SINK</item>
+        </list>
+        <list name="instructions">
+            <item>identify</item>
+            <item>synchronize</item>
+            <item>relate</item>
+        </list>
+        <list name="builtin_directives">
+            <item>url</item>
+            <item>tech</item>
+            <item>schema</item>
+            <item>file</item>
+            <item>dir</item>
+            <item>resource</item>
+            <item>doc</item>
+            <item>key</item>
+        </list>
+        <contexts>
+            <context attribute="Normal Text" lineEndContext="#stay" name="Normal">
+                <DetectSpaces/>
+                <AnyChar attribute="Symbol" context="#stay" String=":!%&amp;+,-/.*=?|~^"/>
+                <AnyChar context="Number" String="0123456789" lookAhead="1"/>
+                <DetectChar attribute="Comment" context="Comment" char="#"/>
+                <DetectChar attribute="String" context="DoubleQuoteString" char="&quot;"/>
+                <DetectChar attribute="Url" context="UrlLiteral" char="&lt;"/>
+                <keyword String="keywords" attribute="Keyword" context="#stay"/>
+                <keyword String="types" attribute="Type" context="#stay"/>
+                <keyword String="instructions" attribute="Instruction" context="#stay"/>
+                <keyword String="builtin_directives" attribute="Directive" context="#stay"/>
+                <DetectChar attribute="Symbol" context="#stay" char="{" beginRegion="Brace1" />
+                <DetectChar attribute="Symbol" context="#stay" char="}" endRegion="Brace1" />
+                <!-- <AnyChar context="SpecialType" String="iu" lookAhead="1"/> -->
+                <DetectIdentifier/>
+            </context>
+            <!-- Strings -->
+            <context attribute="Url" lineEndContext="#pop" name="UrlLiteral">
+                <DetectChar attribute="Url" context="#pop" char="&gt;"/>
+            </context>
+            <context attribute="String" lineEndContext="#pop" name="DoubleQuoteString">
+                <DetectChar context="EscapeChar" char="\" lookAhead="1"/>
+                <DetectChar attribute="String" context="#pop" char="&quot;"/>
+            </context>
+            <context attribute="String Char" lineEndContext="#pop" name="EscapeChar">
+                <RegExpr attribute="String Char" context="#pop" String="\\([nrt'&quot;\\]|x[0-9a-fA-F]{2}|u\{[0-9a-fA-F]+\})"/>
+                <RegExpr attribute="Error" context="#pop" String="\\(x[0-9a-fA-F]?|u\{[0-9a-fA-F]{0,8}\}?)?"/>
+            </context>
+            <!-- Comment -->
+            <context attribute="Comment" lineEndContext="#pop" name="Comment">
+                <DetectSpaces attribute="Comment"/>
+                <IncludeRules context="##Comments"/>
+                <DetectIdentifier attribute="Comment"/>
+            </context>
+            <!-- Integer / Float -->
+            <!-- <context name="Number" attribute="Normal Text" lineEndContext="#pop"> -->
+            <!--     <RegExpr attribute="Float" context="#pop!SuffixNumber" String="&dec_int;(\.&dec_int;&exp_float;?|&exp_float;)"/> -->
+            <!--     <RegExpr attribute="Decimal" context="#pop!SuffixNumber" String="0(?=[^xob]|$)|(?=0[xob])|&dec_int;"/> -->
+            <!--     <RegExpr attribute="Hex Float" context="#pop!SuffixNumber" String="0x&hex_int;(\.&hex_int;&exp_hexfloat;?|&exp_hexfloat;)"/> -->
+            <!--     <RegExpr attribute="Hex" context="#pop!SuffixNumber" String="0x&hex_int;"/> -->
+            <!--     <RegExpr attribute="Octal" context="#pop!SuffixNumber" String="0o&oct_int;"/> -->
+            <!--     <RegExpr attribute="Binary" context="#pop!SuffixNumber" String="0b&bin_int;"/> -->
+            <!--     <DetectChar attribute="Decimal" context="#pop!SuffixNumber" char="0"/> -->
+            <!-- </context> -->
+            <!-- <context name="SuffixNumber" attribute="Normal Text" lineEndContext="#pop" fallthroughContext="#pop"> -->
+            <!--     <AnyChar attribute="Error" String=".0123456789" context="#pop"/> -->
+            <!--     <DetectIdentifier attribute="Error" context="#pop"/> -->
+            <!-- </context> -->
+            <!-- Integer type -->
+            <!-- i or u followed by digits. The maximum allowed bit-width of an integer type is 65535 -->
+            <!--<context name="SpecialType" attribute="Normal Text" lineEndContext="#pop">
+                <RegExpr attribute="Type" context="#pop" String="\b[ui]([0-9]{1,4}|[1-5][0-9]{4}|6([0-4][0-9]{3}|5([0-4][0-9]{2}|5([0-2][0-9]|3[0-5]))))\b"/>
+                <DetectIdentifier attribute="Normal Text" context="#pop"/>
+            </context>-->
+        </contexts>
+        <itemDatas>
+            <itemData name="Normal Text" defStyleNum="dsNormal"/>
+            <itemData name="Keyword" defStyleNum="dsKeyword" spellChecking="false"/>
+            <itemData name="Comment" defStyleNum="dsComment" spellChecking="true"/>
+            <itemData name="Type" defStyleNum="dsDataType" spellChecking="false"/>
+            <itemData name="Directive" defStyleNum="dsBuiltIn" spellChecking="false"/>
+            <itemData name="Instruction" defStyleNum="dsControlFlow" spellChecking="false"/>
+            <itemData name="String" defStyleNum="dsString"/>
+            <itemData name="Url" defStyleNum="dsSpecialChar"/>
+            <itemData name="String Char" defStyleNum="dsSpecialChar"/>
+            <itemData name="Character" defStyleNum="dsChar" spellChecking="false"/>
+            <itemData name="Symbol" defStyleNum="dsOperator" spellChecking="false"/>
+        </itemDatas>
+    </highlighting>
+    <general>
+        <comments>
+            <comment name="singleLine" start="#"/>
+        </comments>
+        <keywords casesensitive="true"/>
+    </general>
+</language>
+
+<!-- kate: replace-tabs on; tab-width 4; indent-width 4; -->

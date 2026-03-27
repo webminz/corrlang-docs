@@ -1,0 +1,107 @@
+---
+title: "Tutorial: GraphQL Federation"
+--- 
+
+In this tutorial, you will learn how to implement a _federation_ 
+of multiple web services implemented in GraphQL.
+
+## The Scenario
+
+Let us assume the following scenario:
+You are a system's architect of some hypothetical retails company
+and have to deal with the following system's landscape
+comprising three systems:
+
+- one for storing the purchases of customers, called `Sales`,
+- one for storing the invoices that were send to customers, called `Invoices`, and
+- one for storing the employee data, called `HR`,
+
+These systems have grown historically, were developed in different points in time by differnt teams. However, they sometimes share the same information, e.g. customers naturally appear in both `Sales` and `Invoices` (they are called "clients" there), and it is, of course, possible that an "employee" is also a "customer.
+
+Now, the retail company is looking for a report of the data in all the systems, where the shared information is already aligned.
+
+In this tutorial, I will demonstrate how _CorrLang_ can help with this.
+
+
+## Preliminaries: Getting the Demo Code
+
+To follow along with the example, it is advised to check out the demo code:
+
+:::{.border}
+<https://github.com/webminz/usecase_SalesInvicesHR.git>
+:::
+
+Follow the README instructions in that repository to set up the three Node.js endpoints.
+
+## Exploring the scenario
+
+Assuming, the three endpoints are up and running and accessible at
+
+> <http://localhost:4011> (_Sales_)
+
+> <http://localhost:4012> (_Invoices_)
+
+> <http://localhost:4013> (_HR_)
+
+The first step when applying _CorrLang_ is always the creation of a so-called _CorrSpec.
+Thus, it is time to open you favourite text editor and create a new empty file called `spec.corr` (actually the name nor the ending of this file does not really matter).
+
+First, you will have to specify the endpoints we are building our correspondence on:
+```corrlang
+endpoint Sales : SERVICE {
+    tech: GRAPH_QL
+    url: <http://localhost:4011>
+
+}
+endpoint Invoices : SERVCE {
+    tech: GRAPH_QL
+    url: <http://localhost:4012>
+}
+
+endpoint Hr : SERVICE {
+    tech: GRAPH_QL
+    url: <http://localhost:4013>
+}
+```
+
+These definitions should intuitively be understandable.
+
+The _core_ of every _CorrSpec_ is the `correspondence`.
+The following line defines an empty correspondence between the three 
+endpoints defined above:
+
+```corrlang
+correspondence Alignment (Sales, Invoices, HR) { }
+```
+
+Leaving a correspondence empty means that we did not specify any relationships yet.
+Before digging deeper into how relationships may be defined, let us first have a look 
+at this new "free" correspondence. 
+
+To treat the relationship as an endpoint, we need to define a `view` for it.
+
+```corrlang
+view Global(Alignment) : SERVER {
+    schema: ("showcase.puml", PUML);
+}
+```
+
+This snippet defines a new view with name _Global_ based on the correspondence _Alignment_,
+which eventually shall be treated as a `SERVICE`-enpoint as well.
+Furthermore, we intruct CorrLang that the schema of this endpoint shall be located in the 
+file `global.puml` (relative to the corr-spec) using the tech space `PUML` for rendering.
+
+Now, we are ready to run CorrLang for the first time!
+If not already done, please [install the CorrLang CLI](./setup.qmd).
+Then, open a shell and enter the following command:
+```bash
+corrl -f spec.corr
+```
+CorrLang will now try to parse the file, create an internal representation of the correspondence,
+checks whether the desired goal state is reached, and if not applies it. 
+In our case will mean that CorrLang will detect that the file `showcase.puml` is missing 
+and therefore will try creating it.
+
+
+:::{.callout-caution}
+under construction ...

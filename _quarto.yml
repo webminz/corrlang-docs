@@ -1,0 +1,30 @@
+project:
+  type: website
+
+website:
+  title: "CorrLang"
+  sidebar:
+    style: "floating" # or docked
+    search: true
+    contents:
+      - href: index.qmd
+        text: Home
+      - href: intro.qmd
+      - href: setup.qmd
+      - href: graphql-tutorial.qmd
+        text: Tutorial
+      # - section: "Basics"
+      #   contents:
+      #     - graphql-tutorial.qmd
+      #     - rest-tutorial.qmd
+
+format:
+  html:
+    theme:
+      - brand
+    css: styles.css
+    toc: true
+    code-copy: hover
+    highlight-style: breeze
+    syntax-definitions:
+      - corrlang-syntax.xml

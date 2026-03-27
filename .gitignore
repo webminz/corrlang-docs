@@ -1,0 +1,4 @@
+.quarto
+_site/site_libs
+_site
+.DS_Store

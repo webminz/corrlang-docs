@@ -1,0 +1,40 @@
+---
+title: Installation
+---
+
+The recommended way of using CorrLang is by using the _command line interface (CLI)_ `corrl` (ˈkɔːrᵊl).
+You can download the binary for your operating system and architecture directly from GitHub.
+
+:::{.panel-tabset}
+## Windows 
+
+1. Download the `corrl-win64.zip`.
+2. Extract the Zip, yielding the `corrl.exe`
+3. Make a folder for CorrLang.
+4. Add to your path.
+
+## Mac OS X 
+
+1. Download the `corrl-macos-arm64.gzip`
+2. Run `gunzip -N corrl-macos-arm64`
+3. put on your path
+
+## Linux
+
+I guess you will figure it out.
+:::
+
+After downloading the binary and placing it on your `PATH`, run the following command:
+```bash
+corrl install
+```
+
+This will pull the latest release of the CorrLang _core service_ itself and install into your `CORRLANG_HOME`.
+By default, this will be a directory called `.corrlang` right beneath your `HOME` directory.
+
+
+Running
+```bash
+corrl info
+```
+will provide you some output wether everything worked correctly.

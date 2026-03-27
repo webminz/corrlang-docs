@@ -1,0 +1,36 @@
+---
+title: "CorrLang"
+---
+
+
+Welcome to the official _CorrLang_ homepage.
+CorrLang is a tool and _domain specific language (DSL)_, which allows you to define 
+semantic interoperability relationship between elements or concepts of different system
+schemas to facilitate a set of common tasks within _semantic interoperability_:
+
+- creating a _federation_
+- verifying _global consistency_
+- _transforming_ data from one format to another
+- and more ...
+
+If you want to get "hans-on" quickly, we recommend you to install the [cli](./setup.qmd)
+and start reading the [tutorial](./graphql-tutorial.qmd). 
+
+If you are more of a theoretical person and want to learn about first principles first, 
+we recommend you to read the [history](./intro.qmd) and architecture sections.
+
+
+:::{.callout-caution}
+
+
+_CorrLang_ (unfortunately) falls into the category of _academic prototype tools_.
+Hence: "there might be dragons"! 😉
+Off the beaten path there will most likely be some bugs, if you encounter one,
+please feel free to [file an issue](https://codeberg.org/drstrudel/corrlang/issues)!
+Since this project, in it's current state, is mostly a "one man show" (with some occasional contributions by students),
+it will be "rough" around the edges and you may have to stay close to the tutorials and guides
+on this side.
+We are working on making CorrLang more useful, stable, and robust!
+
+:::
+

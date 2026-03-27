@@ -1,0 +1,96 @@
+--- 
+title: Introduction 
+bibliography: Corrlang.bib
+---
+
+# What is CorrLang ?
+
+> **TL;DR** A _domain specific language (DSL)_ and tool for managing _semantic interoperability_ through the 
+> declaration of relationships between _concepts_.
+
+
+## History
+
+
+The idea for _CorrLang_ came into place some time during the late stages of my PhD [@MYPHD].
+At that time, I was mostly working with quite theoretical formal methamtical stuf: 
+category theory and algebraic graph transformation.
+I wanted to supply this rather abstract work with something more tangible, which I could show to my 
+more applied software peers[^1].
+
+[^1]: Also it was a nice "side hustle" while wading through the tough phase of my Ph.D. thesis writeup.
+
+### The Beginning: `graphqlintegrator`
+
+The starting point for CorrLang actually was a "side project" called `graphqlintegrator`, which 
+was developed by the very first master student I was supervising: _Ole von Bargen_.
+This tool, which was also presented in paper at [ECMFA](https://conf.researchr.org/series/ecmfa) [@StuenkelBargenRL2020],
+could be considered the technical and conceptual ancestor of CorrLang:
+It facilitated a _federation_ of multiple GraphQL endpoints via _query rewriting_.
+The rewriting was theoretically inspired by the _colimit concept_ (i.e., first creating a common "global" schema
+by collecting all schema elements into one and then identifying elements that are considered to be "the same").
+The tool was using a DSL to identify schema elements.
+This DSL was the first draft of the semantic interoperability language that CorrLang is today.
+`graphqlintegrator` was useful for sketching out first ideas and playing around with the query rewriting concept.
+However, it was more of a protype rather than something you would run in production.
+Moreover, it was "locked-in" on the colimit-concept and therefore not perfectly suitable to express all kinds 
+of semantic interoperability problems (as I have been discovering throughout my PhD on a theoretical level).
+
+### Consolidating: CorrLang `v.0.9`
+
+Therefore, in 2021, I started a re-implementation of the concepts `graphqlintegrator`.
+This time from a more foundational perspective, incorporating our idea of _comprehensive systems_ [@StuenkelKoenigLR2021a]. 
+The latter is an abstract framework, heavily built on top of concepts from category theory, which 
+might make reading the paper quite cumbersome for those who are not already familiar with this abstract branch 
+of mathematics. 
+The general idea, however, can be intuitively sketched out more easily:
+
+- software models (this can be schemas, data models, interface description langauages but also instances a.k.a. _data sets_)
+  can abstractly be described as _graphs_, i.e. _classes/concepts/objects_ are considered as _nodes_ while _references/associations/links_
+  are considered as _edges_.
+- relationships (e.g. _typing/instanceOf_) between such models (think graphs) can be expressed by something called _graph (homo-)morphisms_,
+  i.e. a mapphing that respects the edge-node-incidence.
+- graph morphisms are generally _directed_ and _binary_. Therefore, they are not directly adequate for expressing semantic 
+  interoperability relationships among concepts from separate models because such relationships (e.g. "same-ness") are generally _undirected_ 
+  and _multi-ary_.
+- semantic interoperability relationships can therefore be expressed via _spans_ (formally: a star-shaped structure of multiple partial morphisms),
+  which can be thought of as a generalized relations: They can be drawn on a whiteboard as lines (or "tentacles") with many ends that put nodes 
+  or edges from multiple graphs in relationship with each other.
+- What we have show in our paper was that this span-structure actually can be "_internalized_" (flattened) such that the resulting 
+  structure is "basically" a graph again. Hence, we only need to work with graphs again, with the small caveat that we 
+  have to put some special attention on some edges. 
+
+CorrLang was meant as a showcase to put these ideas into action. 
+With the delivery of my thesis sometime in September 2021, version `0.9` of CorrLang was ready.
+Until recently, this version was the "official" showcase version that was linked on the website for a long time.
+It is also the version that described in chapter 6 of my thesis. 
+This version re-implemented the functionality of `graphqlintegrator` in the more general framework of _comprehensive systems_
+and came with a more "polished" DSL. 
+The main concepts of the DSL remain valid also in the newest version and are depicted in @fig-corrlang-domain.
+
+![CorrLang: Core Domain Model](./assets/figures/svg/Corrlang-domain.svg){#fig-corrlang-domain}
+
+### The road to: `v.1.0`
+
+After defending my PhD in February 2022, the usual thing happened: I got a new position somewhere else 
+and thus development halted. 
+At this point, CorrLang would have gone the same road as all academic software prototypes, which are developed 
+as part of master or PhD theses: They disappear.
+Thankfully, I got the opportunity to continue in academic.
+Even tough me having having a lot less time than before, I still have the possibility to continue working on CorrLang 
+in between and with the prospect of having development support through student projects and the prospect of 
+increasingly powerful coding LLM-assistants, I am motivated to turn _CorrLang_ into a somewhat more stable product.
+Since 2025, I have been working on a major revision of the codebase and finally approaching something, I would like 
+to call `v.1.0`.
+
+The major changes compared to the previous version are as follows:
+- The concept of `goal`s was dropped and replaced with the more general concept of a `view`
+- The DSL was revised once more to account for the above change and to improve editing ergonomics
+- The internal software architecture was completely reworked to make _CorrLang_ less dependent on a single 
+  programming language. To this end, the central codebase with the custom comprehensive system logic was encapsulated 
+  in something called the `core-service` (written in Java). The services offers a public API through gRPC. 
+
+### References 
+
+:::{#refs}
+:::
