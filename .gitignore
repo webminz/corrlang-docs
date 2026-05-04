@@ -2,3 +2,6 @@
 _site/site_libs
 _site
 .DS_Store
+
+/.quarto/
+**/*.quarto_ipynb

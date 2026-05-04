@@ -13,7 +13,7 @@ schemas to facilitate a set of common tasks within _semantic interoperability_:
 - _transforming_ data from one format to another
 - and more ...
 
-If you want to get "hans-on" quickly, we recommend you to install the [cli](./setup.qmd)
+If you want to get "hands-on" quickly, we recommend you to install the [cli](./setup.qmd)
 and start reading the [tutorial](./graphql-tutorial.qmd). 
 
 If you are more of a theoretical person and want to learn about first principles first, 

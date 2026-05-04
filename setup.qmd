@@ -1,6 +1,4 @@
----
-title: Installation
----
+# Installation {#sec-setup}
 
 The recommended way of using CorrLang is by using the _command line interface (CLI)_ `corrl` (ˈkɔːrᵊl).
 You can download the binary for your operating system and architecture directly from GitHub.
@@ -8,33 +6,74 @@ You can download the binary for your operating system and architecture directly 
 :::{.panel-tabset}
 ## Windows 
 
-1. Download the `corrl-win64.zip`.
-2. Extract the Zip, yielding the `corrl.exe`
-3. Make a folder for CorrLang.
-4. Add to your path.
+1. Download the `corrl-windows-amd64.exe` and rename it to `corrl.exe`
+3. Make a new folder to put the executable, e.g. `C:\Users\{your username}\CorrLang`.
+4. In order to run CLI in a terminal, you will have to add _that folder_ to your `%PATH%` environment variable.
+   The easiest way is via the GUI: Press the _Windows button_ and search for "Control panel".
+   In the control planel navigate to `System and Security` > `System` > `Advanced system settings`.
+   In the latter window, there will be an `Environment Variables` button press it, select the `Path` entry in the 
+   `User variables` section and add the path above.
+5. Open a new terminal window (PowerShell or CMD): Your should be able to enter `corrl info`.
 
 ## Mac OS X 
 
-1. Download the `corrl-macos-arm64.gzip`
-2. Run `gunzip -N corrl-macos-arm64`
-3. put on your path
+First, you need to find out what type of processor your have:
+Press the _Apple icon_ in the top left and select the `About this Mac`.
+If it says `Apple M..` in the `Chip` section, you will have to use the `arm64` version otherwise `amd64`.
+
+
+1. Download the correct `corrl-macos-{arch}` file that matches your processor architecture and rename it to `corrl`.
+3. Place the exctracted `corrl` binary somewhere in you file system where you want executables to live, e.g., `/Users/{your-username}/.local/bin`
+   is a common choice.
+4. Remove the Apple quarantine flag from the binary: `xattr -d com.apple.quarantine ~/.local/bin/corrl`
+5. Make sure the binary is executable: `chmod +x ~/.local/bin/corrl`
+4. Make sure that the above file path is part of you `$PATH` system environment variable: `export PATH=$PATH:/Users/{your-username}/.local/bin`.
+   Remember to put this statement into your `~./.zshrc` if you do not want to enter it into every new terminal session.
 
 ## Linux
 
-I guess you will figure it out.
+1. Download `corrl-linux-amd64` or `corrl-linux-arm64` depending on you processor architecture and rename the file to `corrl`.
+2. Place the file, where you want your executables to be, e.g. `/home/{your-username}/.local/bin`.
+3. Make sure the binary is executable: `chmod +x ~/.local/bin/corrl`
+4. Make sure that the above file path is part of you `$PATH` system environment variable: `export PATH=$PATH:/home/{your-username}/.local/bin`.
+   Remember to put this statement into your `~./.bashrc` if you do not want to enter it into every new terminal session.
 :::
 
-After downloading the binary and placing it on your `PATH`, run the following command:
+The `corrl` binary itself is just a thin service client that is meant to interact with a _daemon_ (background) process, which 
+does the "heay lifting". The latter is referred to as _core service_ and requires the _Java virtual machine (JVM)_ to run. 
+The CLI will automate installing the core service itself but you have to make sure to have some Java runtime with at least version 21
+installed.
+
+ 
+To install the core service, simply run:
 ```bash
 corrl install
 ```
 
-This will pull the latest release of the CorrLang _core service_ itself and install into your `CORRLANG_HOME`.
-By default, this will be a directory called `.corrlang` right beneath your `HOME` directory.
+This will pull the latest release of the CorrLang _core service_  into your `CORRLANG_HOME`.
+By default, this will be a directory called `.corrlang/`, right beneath your `HOME` directory.
 
 
-Running
+To check what version of the core-service is installed, you can run
 ```bash
 corrl info
 ```
-will provide you some output wether everything worked correctly.
+
+As said above, the "heavy-lifting" is done by this core-service.
+Hence, you will have to start it whenever you are working with CorrSpecs, alignment, etc.
+
+The service is started with:
+```bash
+corrl up
+```
+
+and stopped with:
+```bash
+corrl down
+```
+
+
+You can check the current status of the service with:
+```bash
+corrl status
+```
