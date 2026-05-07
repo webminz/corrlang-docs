@@ -24,8 +24,8 @@ more applied software peers[^1].
 
 The starting point for CorrLang was a "side project" called [graphqlintegrator](https://gitlab.com/olevonbargen/graphqlintegrator), 
 developed by the very first master student, which I was supervising: _Ole von Bargen_.
-This tool was also presented in paper at [ECMFA](https://conf.researchr.org/series/ecmfa) [@StuenkelBargenRL2020],
-and could be considered the technical and conceptual ancestor of CorrLang:
+This tool was also presented in a paper at [ECMFA](https://conf.researchr.org/series/ecmfa) [@StuenkelBargenRL2020],
+and could be considered the technical and conceptual ancestor of CorrLang.
 It facilitated a _federation_ of multiple GraphQL endpoints via _query rewriting_.
 A federation is a conceptual system made up of multiple physical systems appearing as one from the outside.
 A common use case for a federation is in databases.
@@ -40,12 +40,12 @@ of semantic interoperability problems (as I have been discovering throughout my 
 
 ### Consolidation: CorrLang v0.9
 
-Therefore, in 2021, I started a re-implementation of the concepts graphqlintegrator.
-This time from a more foundational perspective, incorporating our idea of _comprehensive systems_ [@StuenkelKoenigLR2021a]. 
-The latter is an abstract framework, heavily built on top of concepts from category theory, which 
+Therefore, in 2021, I started a re-implementation, based on the concepts in graphqlintegrator.
+This time, it was built from a more foundational perspective, incorporating our previously published idea of _comprehensive systems_ [@StuenkelKoenigLR2021a]. 
+The latter is an abstract framework, heavily built upon concepts from category theory, which 
 might make reading the paper quite cumbersome for those who are not already familiar with this abstract branch 
 of mathematics. 
-The general idea, however, can be intuitively sketched out more easily:
+The general idea, however, can be sketched out quite intuitively:
 
 - software models (this can be schemas, data models, interface description langauages but also instances a.k.a. _data sets_)
   can abstractly be described as _graphs_, i.e. _classes/concepts/objects_ are considered as _nodes_ while _references/associations/links_
@@ -55,17 +55,17 @@ The general idea, however, can be intuitively sketched out more easily:
 - graph morphisms are generally _directed_ and _binary_. Therefore, they are not directly adequate for expressing semantic 
   interoperability relationships among concepts from separate models because such relationships (e.g. "same-ness") are generally _undirected_ 
   and _multi-ary_.
-- semantic interoperability relationships can therefore be expressed via _spans_ (formally: a star-shaped structure of multiple partial morphisms),
-  which can be thought of as a generalized relations: They can be drawn on a whiteboard as lines (or "tentacles") with many ends that put nodes 
+- semantic interoperability relationships can be expressed via _spans_ (formally: a star-shaped structure of multiple partial morphisms),
+  which can be thought of as generalized relations: They can be drawn on a whiteboard as lines (or "tentacles") with many ends that put nodes 
   or edges from multiple graphs in relationship with each other.
 - What we have show in our paper was that this span-structure actually can be "_internalized_" (flattened) such that the resulting 
-  structure is "basically" a graph again. Hence, we only need to work with graphs again, with the small caveat that we 
-  have to put some special attention on some edges. 
+  structure is "basically" a graph again. Hence, we only ever need to work with graphs (with the small caveat that we 
+  have to put some special attention on some edges). 
 
 CorrLang was meant as a showcase to put these ideas into action. 
 With the delivery of my thesis sometime in September 2021, _version 0.9_ of CorrLang was ready.
 Until recently, this version was the "official" showcase version that was linked on the website for a long time.
-It is also the version that described in chapter 6 of my thesis. 
+It is also the version that is described in chapter 6 of my thesis. 
 This version re-implemented the functionality of graphqlintegrator in the more general framework of _comprehensive systems_
 and came with a more "polished" DSL. 
 The main concepts of the DSL remain valid also in the newest version and are depicted in @fig-corrlang-domain.
@@ -78,8 +78,46 @@ Each endpoint must have a `schema` which describes it by listing the "entities",
 In CorrLang, these are called `elements` and as we have just learned, they are abstractly considered to be nodes and edges in a graph.
 Among a set of endpoints (at least two), one may define a `correspondence`, which means that these endpoints share some semantic `commonalities`.
 The latter reify the correspondence via concrete relationships among the schema elements.
-Commonalities can be of different types, one being `identity` (i.e. two or more elements in disparate schemas representing the same concept),
-which is a very strong form of a commonality, another being some sort of abstract `relation`.
+Commonalities can be of different types.
+One of them being `identity` (i.e. two or more elements in disparate schemas representing the same concept),
+which is a very strong form of a commonality.
+Another form is the generic `relation`, which can be used to express any kind of semantic relationship. 
+The idea is that one could attach some constraints to these relationships to encode inter-model consistency rules. 
+A very common form of inter-model constraints are constraints of the form "for every X in model A there shall be a 
+corresponding Y in model B and vice versa".
+We call these `synchronization`-rules and they can be though of as a special type of `relation`-commonalities that come with 
+a built-in constraint. 
+These rules are, for instance, heavily studied in the _bidirectional transformation (bx)_ scientific community.
+All of these concepts were reified in the first draft of the CorrLang DSL.
+
+```corrlang
+correspondence Backoffice (Sales, Invoices, HR) { 
+	# (1) merges types/attributes/associations 
+	identify (Sales.Customer, Invoices.Client, HR.Employee) as Partner;
+	# (2) introduces new associations
+	relate (Sales.Purchases, Invoices.Invoice) via paidIn; 
+	# (3) introduces new associations and automatically keeps them consistent
+	sync (Sales.Customer.address, Invoices.Client.address);	 
+}
+```
+
+As it shown, the language is purely declarative and the definition of endpoints and correspondences with their 
+commonalities has no effect per se (apart from the added value of having explicit documentation).
+In order to have some _actionable_ items in the language, the `0.9` version of CorrLang had a concept of `goals`.
+The latter being a pre-defined list of common operations that one may perform during semantic model interoperability 
+management:
+
+- Creating a global (i.e. merged) view of the system schema
+- Performing a global consistency check, and 
+- Creating a _federated system_ out of individual systems.
+
+On youtube, there still exists an old screencast that demonstrates how to create a federation of 
+of multiple GraphQL endpoints[^oldScreencast]:
+
+{{<video https://www.youtube.com/embed/98z64J3mPiQ>}}
+
+[^oldScreencast]: The new version adjusted for the current CorrLang version is now found in the [Tutorial](./graphql-tutorial.qmd).
+
 
 ### The road to v1.0
 

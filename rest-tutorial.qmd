@@ -1,0 +1,23 @@
+--- 
+title: "Tutorial: Web Service Dataset Collection"
+---
+
+In this tutorial we will be looking into how CorrLang can be used 
+for collecting datasets from web services.
+
+## Prerequisites
+
+In order to follow along with this tutorial, you should 
+
+- have CorrLang installed 
+- are familiar with JSON and CSV file formats,
+- have some basic understanding of HTTP and REST web-services,
+- and (ideally) you are somewhat familiar with OpenAPI/Swagger and json-schema.
+
+## The Goal 
+
+Let us assume you can to collect some dataset (e.g. for a machine larning task)
+using _open data_ sources. In this case: REST web services.
+For demonstration purposes, we will use some services that are provided by
+the Norwegian cartography organization (Kartverket) and meterological institute.
+Both are public organization and they publish these services under the ... license.
