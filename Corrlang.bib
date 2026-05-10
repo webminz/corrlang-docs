@@ -1,4 +1,29 @@
-@incollection{Goguen1973,
+@inproceedings{amraniSurveyFederativeApproaches2024,
+  title = {A {{Survey}} of {{Federative Approaches}} for {{Model Management}} in {{MBSE}}},
+  booktitle = {Proceedings of the {{ACM}}/{{IEEE}} 27th {{International Conference}} on {{Model Driven Engineering Languages}} and {{Systems}}},
+  author = {Amrani, Moussa and Mittal, Rakshit and Goul{\~a}o, Miguel and Amaral, Vasco and Gu{\'e}rin, Sylvain and Mart{\'i}nez, Salvador and Blouin, Dominique and Bhobe, Anish and Hallak, Yara},
+  year = 2024,
+  month = oct,
+  series = {{{MODELS Companion}} '24},
+  pages = {990--999},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  doi = {10.1145/3652620.3688221},
+  urldate = {2026-05-06},
+  abstract = {Model-based Systems Engineering (MBSE) advocates the use of models in every stage of development, leading to large number of models that need coordination, collaboration, and discipline management. Model Management (MoM) is a possible approach to manage inter-related collections of models among which Model Federation (MF) provides unique capabilities, like independence of development in individual modelling domains. There is currently a lack of studies about commonalities, variabilities, and gaps in MF approaches. In this paper, we propose a survey and a critical discussion of carefully selected papers about MF. From 59 contributions collected by experts in MoM, we selected, and classified, 23 papers. We extract the main trends we observed, according to our Classification. We then critically review the Classification, and discuss important gaps found in our corpus. The survey results and artefacts are all available online.},
+  isbn = {979-8-4007-0622-6},
+}
+
+@inproceedings{bezivinFirstExperimentsATL2003,
+  title = {First Experiments with the {{ATL}} Model Transformation Language: {{Transforming XSLT}} into {{XQuery}}},
+  shorttitle = {First Experiments with the {{ATL}} Model Transformation Language},
+  booktitle = {2nd {{OOPSLA Workshop}} on {{Generative Techniques}} in the Context of {{Model Driven Architecture}}},
+  author = {B{\'e}zivin, Jean and Dup{\'e}, Gr{\'e}goire and Jouault, Fr{\'e}d{\'e}ric and Pitette, Gilles and Rougui, Jamal Eddine},
+  year = 2003,
+  abstract = {ATL (Atlas Transformation Language) has been defined to perform general transformations within the MDA framework (Model Driven Architecture) recently proposed by the OMG. We are currently learning from the first applications developed with this language. The example used here is a transformation from XSLT to XQuery. Since these are two standard notations that don't pertain to the MDA space, we first need to provide some justification about this work. The global organization of technological spaces presented at the beginning of the paper is intended to answer this first question. Furthermore we propose the original characterization of a technological space as a framework based on a given unique meta-model. After having briefly presented the ATL framework, we describe the XSLT2XQuery transformation. We may then draw several conclusions from this experiment, suggesting possible improvements to general model transformation frameworks. ATL is still evolving since it is supposed to match the forthcoming QVT/RFP recommendation when it is ready. As a consequence, the concrete expression of the transformation presented in this paper may change, but the general ideas should remain stable.},
+}
+
+@incollection{goguenCategoricalFoundationsGeneral1973,
   title = {Categorical Foundations for General Systems Theory},
   booktitle = {Advances in {{Cybernetics}} and {{Systems Research}}},
   author = {Goguen, Joseph A.},
@@ -6,30 +31,6 @@
   year = 1973,
   pages = {121--130},
   publisher = {Transcripta Books}
-}
-
-@phdthesis{MYPHD,
-  type = {Doctoral {Thesis}},
-  title = {A Framework for Multi-Model Consistency Management},
-  author = {St{\"u}nkel, Patrick},
-  year = 2022,
-  address = {Bergen},
-  abstract = {Software systems have become crucial for society and the economy to function. Constantly they are permeating more and more application domains. Also, they are getting increasingly integrated with already existing systems. As a result, the development and maintenance of such systems are getting increasingly complex as well. Abstraction is a central key to tackle this complexity. Thus, the software engineering research discipline conceives software systems through the means of models, i.e. simplified representations of reality that simultaneously describe and prescribe the structure and the behaviour of these systems. When engineering system's integration, the overall design involves multiple models at the same time because each model focuses on a specific aspect of the overall system. This setting is commonly called a multi-model. A major open challenge in software engineering is to maintain the consistency of a multi-model: The individual members of a multi-model are often overlapping and are authored by distinct stakeholders, which may result in inconsistencies, which negatively affect the quality of the system under development. Hence, there is a necessity for a recurring activity, which I am going to call multi-model consistency management throughout this thesis. This general activity includes several challenging software engineering sub-problems such as aligning heterogeneous models, automatic consistency verification and model repair, therefore touching on a range of related research fields. In this thesis, I address limitations with existing approaches and develop a solution to the issue of multi-model consistency management. The fundamental novelty of my solution is its ability to handle multi-models of arbitrary arity because established approaches are mainly limited to binary situations. Software engineering is a constructive scientific discipline and, therefore, this thesis follows a constructive approach. In particular, three artefacts are constructed: (i) A conceptual model of the problem domain; (ii) A formalism called comprehensive systems (iii) A prototype tool called CorrLang. Each artefact marks a contribution to the existing body of scientific knowledge providing value for both researchers and practitioners in software engineering. The conceptual model provides methodological value for software engineers, software architects and decision-makers dealing with multi-model consistency management problems by providing guidelines for analysing concrete scenarios. The formalism provides theoretical value and allows to abstractly represent and reason about inter-related software models in a technology-independent way, which can be used to develop solutions on a high level of abstraction. Simultaneously, it represents a generalisation of existing formalisms that have been used to describe the synchronisation of multi-models. Finally, the prototype provides practical value, which on the one hand, demonstrates the implementability of the conceptual and the formal framework, and on the other hand, it is directly applicable for end-users to solve concrete multi-model consistency management problems.},
-  copyright = {All rights reserved},
-  school = {H\o gskulen p\aa{} Vestlandet}
-}
-
-@article{StuenkelBargenRL2020,
-  title = {{{GraphQL Federation}}: {{A Model-Based Approach}}},
-  author = {St{\"u}nkel, Patrick and van Bargen, Ole and Rutle, Adrian and Lamo, Yngve},
-  year = 2020,
-  journal = {Journal of Object Technology},
-  volume = {19},
-  number = {2},
-  pages = {18:1-21},
-  issn = {1660-1769},
-  doi = {10.5381/jot.2020.19.2.a18.},
-  abstract = {The Graph Query Language (GraphQL) is a framework for de- veloping Web Services, which works on the domain model level rather than the functions. While the declarative nature of this framework has already attracted the interest of practitioners in both academia and industry, it still lacks integration capabilities. This shortcoming has been recognized in the industry; there exists a first tool creating a federation---a virtual integrated system---on top of instrumented systems. Being relatively new, it suffers from a few practical and conceptual shortcomings, such as consolidation of (conflicting) schemas and identification of multiple types. In this paper, we will analyze the federation challenge and propose a solution utilizing multi-view modeling and domain specific modeling. Our approach is accom- panied by a proof-of-concept implementation and provides a model-based presentation of the GraphQL framework.},
 }
 
 @article{StuenkelKoenigLR2021a,
@@ -48,4 +49,27 @@
   abstract = {Model management is a central activity in Software Engineering. The most challenging aspect of model management is to keep inter-related models consistent with each other while they evolve. As a consequence, there is a lot of scientific activity in this area, which has produced an extensive body of knowledge, methods, results and tools. The majority of these approaches, however, are limited to binary inter-model relations; i.e. the synchronisation of exactly two models. Yet, not every multi-ary relation can be factored into a family of binary relations. In this paper, we propose and investigate a novel comprehensive system construction, which is able to represent multi-ary relations among multiple models in an integrated manner and thus serves as a formal foundation for artefacts used in consistency management activities involving multiple models. The construction is based on the definition of partial commonalities among a set of models using the same language, which is used to denote the (local) models. The main theoretical results of this paper are proofs of the facts that comprehensive systems are an admissible environment for (i) applying formal means of consistency verification (diagrammatic predicate framework), (ii) performing algebraic graph transformation (weak adhesive HLR category), and (iii) that they generalise the underlying setting of graph diagrams and triple graph grammars.},
   copyright = {All rights reserved},
   keywords = {Adhesive categories,Category theory,Consistency restoration,Consistency verification,Graph diagrams,Inter-model consistency,Model merging,Model synchronisation,Model weaving,Multi-directional transformations (MX),Multi-modelling,Triple graph grammars},
+}
+
+@phdthesis{MYPHD,
+  type = {Doctoral {Thesis}},
+  title = {A Framework for Multi-Model Consistency Management},
+  author = {St{\"u}nkel, Patrick},
+  year = 2022,
+  address = {Bergen},
+  abstract = {Software systems have become crucial for society and the economy to function. Constantly they are permeating more and more application domains. Also, they are getting increasingly integrated with already existing systems. As a result, the development and maintenance of such systems are getting increasingly complex as well. Abstraction is a central key to tackle this complexity. Thus, the software engineering research discipline conceives software systems through the means of models, i.e. simplified representations of reality that simultaneously describe and prescribe the structure and the behaviour of these systems. When engineering system's integration, the overall design involves multiple models at the same time because each model focuses on a specific aspect of the overall system. This setting is commonly called a multi-model. A major open challenge in software engineering is to maintain the consistency of a multi-model: The individual members of a multi-model are often overlapping and are authored by distinct stakeholders, which may result in inconsistencies, which negatively affect the quality of the system under development. Hence, there is a necessity for a recurring activity, which I am going to call multi-model consistency management throughout this thesis. This general activity includes several challenging software engineering sub-problems such as aligning heterogeneous models, automatic consistency verification and model repair, therefore touching on a range of related research fields. In this thesis, I address limitations with existing approaches and develop a solution to the issue of multi-model consistency management. The fundamental novelty of my solution is its ability to handle multi-models of arbitrary arity because established approaches are mainly limited to binary situations. Software engineering is a constructive scientific discipline and, therefore, this thesis follows a constructive approach. In particular, three artefacts are constructed: (i) A conceptual model of the problem domain; (ii) A formalism called comprehensive systems (iii) A prototype tool called CorrLang. Each artefact marks a contribution to the existing body of scientific knowledge providing value for both researchers and practitioners in software engineering. The conceptual model provides methodological value for software engineers, software architects and decision-makers dealing with multi-model consistency management problems by providing guidelines for analysing concrete scenarios. The formalism provides theoretical value and allows to abstractly represent and reason about inter-related software models in a technology-independent way, which can be used to develop solutions on a high level of abstraction. Simultaneously, it represents a generalisation of existing formalisms that have been used to describe the synchronisation of multi-models. Finally, the prototype provides practical value, which on the one hand, demonstrates the implementability of the conceptual and the formal framework, and on the other hand, it is directly applicable for end-users to solve concrete multi-model consistency management problems.},
+  school = {H\o gskulen p\aa{} Vestlandet}
+}
+
+@article{StuenkelBargenRL2020,
+  title = {{{GraphQL Federation}}: {{A Model-Based Approach}}},
+  author = {St{\"u}nkel, Patrick and van Bargen, Ole and Rutle, Adrian and Lamo, Yngve},
+  year = 2020,
+  journal = {Journal of Object Technology},
+  volume = {19},
+  number = {2},
+  pages = {18:1-21},
+  issn = {1660-1769},
+  doi = {10.5381/jot.2020.19.2.a18.},
+  abstract = {The Graph Query Language (GraphQL) is a framework for de- veloping Web Services, which works on the domain model level rather than the functions. While the declarative nature of this framework has already attracted the interest of practitioners in both academia and industry, it still lacks integration capabilities. This shortcoming has been recognized in the industry; there exists a first tool creating a federation---a virtual integrated system---on top of instrumented systems. Being relatively new, it suffers from a few practical and conceptual shortcomings, such as consolidation of (conflicting) schemas and identification of multiple types. In this paper, we will analyze the federation challenge and propose a solution utilizing multi-view modeling and domain specific modeling. Our approach is accom- panied by a proof-of-concept implementation and provides a model-based presentation of the GraphQL framework.},
 }

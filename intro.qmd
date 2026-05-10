@@ -26,10 +26,11 @@ The starting point for CorrLang was a "side project" called [graphqlintegrator](
 developed by the very first master student, which I was supervising: _Ole von Bargen_.
 This tool was also presented in a paper at [ECMFA](https://conf.researchr.org/series/ecmfa) [@StuenkelBargenRL2020],
 and could be considered the technical and conceptual ancestor of CorrLang.
-It facilitated a _federation_ of multiple GraphQL endpoints via _query rewriting_.
+It facilitated a _federation_ [@amraniSurveyFederativeApproaches2024] of multiple GraphQL endpoints via _query rewriting_.
 A federation is a conceptual system made up of multiple physical systems appearing as one from the outside.
 A common use case for a federation is in databases.
-The rewriting algorithm used in the tools was theoretically inspired by the _colimit concept_ (i.e., first creating a common "global" schema
+The rewriting algorithm used in the tools was theoretically inspired by the _colimit concept_ [@goguenCategoricalFoundationsGeneral1973] 
+(i.e., first creating a common "global" schema
 by collecting all schema elements into one and then identifying elements that are considered to be "the same").
 The tool also featured a DSL, which was used to specify _what_ GraphQL schema element shall be identified and when.
 Hence, this DSL was a first draft of the semantic interoperability language that CorrLang is today.
@@ -73,10 +74,29 @@ The main concepts of the DSL remain valid also in the newest version and are dep
 ![CorrLang: Core Domain Model](./assets/figures/svg/Corrlang-domain.svg){#fig-corrlang-domain}
 
 The basic building blocks are `endpoints`.
-These can be servers, databases or simple files (treated as "black boxes").
+These can be servers, databases or simple files.
 Each endpoint must have a `schema` which describes it by listing the "entities", "operations", "data types" etc.
-In CorrLang, these are called `elements` and as we have just learned, they are abstractly considered to be nodes and edges in a graph.
-Among a set of endpoints (at least two), one may define a `correspondence`, which means that these endpoints share some semantic `commonalities`.
+In CorrLang, those are called `elements` and as we have just learned, they are abstractly considered to be nodes and edges
+in a graph formally representing the schema.
+Endpoints may be built upon various technologies, e.g., a file written in XML, a service offering a HTTP/REST interface, 
+an SQL database, or more "exotic" technologies like RDF etc.
+I consider the handling of this heterogeneity as an issue of _syntactic interoperability_ and I assume it is solvable
+by butting the necessary amount of effort into it.
+Therefore, CorrLang introduces the concept of a `techspace`.
+This term, originally, stems from one of the original papers on the model transformation language ATL [@bezivinFirstExperimentsATL2003]
+which considers demarcated ecosystems of interoperable formats and tools.
+In CorrLang, a `techspace` is basically a _plugin_ that knows how to interact with such a technological ecosystem, i.e.,
+it is able to parse or write scehmas and data, call services, etc., depending on the respective technological space.
+Thus, a `techspace` performs the translation between a concrete technological encoding and CorrLang-internal graph-based formal 
+representation.
+The original CorrLang version come with exactly two built-in `techspace` plugins:
+One for GraphQL (in order to encompass the behaviour of the graphqlintegrator predecessor) and 
+the _Eclipse Modeling Framework (EMF)_, which was the "go-to"-platform for a lot of academic tools in the 
+are of _Model-Driven Software Engineering (MDSE)_ at that time.
+
+
+Among a set of endpoints (at least two), one may define a `correspondence`, which means that these endpoints share
+some semantic `commonalities`.
 The latter reify the correspondence via concrete relationships among the schema elements.
 Commonalities can be of different types.
 One of them being `identity` (i.e. two or more elements in disparate schemas representing the same concept),
@@ -122,22 +142,75 @@ of multiple GraphQL endpoints[^oldScreencast]:
 ### The road to v1.0
 
 After defending my PhD in February 2022, the usual thing happened: I got a new position somewhere else 
-and thus development halted. 
+and then development halted. 
 At this point, CorrLang would have gone the same road as all academic software prototypes, which are developed 
 as part of master or PhD theses: They disappear.
-Thankfully, I got the opportunity to continue in academic.
-Even tough me having having a lot less time than before, I still have the possibility to continue working on CorrLang 
-in between and with the prospect of having development support through student projects and the prospect of 
-increasingly powerful coding LLM-assistants, I am motivated to turn _CorrLang_ into a somewhat more stable product.
-Since 2025, I have been working on a major revision of the codebase and finally approaching something, I would like 
-to call `v1.0`.
+Thankfully, I got the opportunity to continue in academia in a permanent position.
+The latter came with a lot of teaching duties, organisational stuff, politics, supervision, and other competing research directions [^acedemicSeniority].
+Thus, even though me having having a lot less time than before, the amount of time available to work on CorrLang is greater than zero.
+Moreover, there is the occasional opportunity of having development support through (master) student projects and the prospect of 
+the availability of increasingly powerful coding LLM-assistants, I am motivated to turn _CorrLang_ into a somewhat more stable product.
+Since 2025, I have been working on a major revision of the codebase.
+
+[^acedemicSeniority]: The natural development seems to be that with growing academic "seniority", one is working 
+    with much more topics than before, but each of them on a far more superficial level.
 
 The major changes compared to the previous version are as follows:
-- The concept of `goal`s was dropped and replaced with the more general concept of a `view`
-- The DSL was revised once more to account for the above change and to improve editing ergonomics
+- The concept of `goal`s was dropped and replaced with the more general concept of a `view`.
+  This means that instead of having a set of ad-hoc defined model management operations that are configurable via 
+  the DSL, now, there is the unified concept of a `view`, which represents the reification of a correspondence into 
+  a single artifact. In such way, the schema merging and service federation operations can be expressed through the same concept.
 - The internal software architecture was completely reworked to make _CorrLang_ less dependent on a single 
-  programming language. To this end, the central codebase with the custom comprehensive system logic was encapsulated 
-  in something called the `core-service` (written in Java). The services offers a public API through gRPC. 
+  programming language. The central codebase with the custom comprehensive system logic from the previous version 
+  is still written in Java. But it's public API (called `core-service`) was encapsulated and made avaialble via gRPC.
+  Thus, the general system architecture became more modular and it is now possible to develop `techspace`-plugins 
+  in other technologies too[^javaPlugins] than Java: A `techspace`-plugin can be a service that communicates with the `core-service`
+  through a gRPC interface. Likewise, one may develop different _clients_ that interact with CorrLang. 
+  In such way, we could re-implement the CorrLang command line interface was an independent native application written in Go.
+  This architecture is illustrated in @fig-corrlang-arch.
+- The DSL was revised once more to account for the new concept of `views` and some "streamlining" with respect to 
+  the definition of endpoints and their properties. The following code listing provides an impression of the current 
+  state of the DSL.
+
+```corrlang
+endpoint Webservice : SERVICE {
+    tech: OPENAPI
+    url: <https://www.example.com/api/v.2/swagger.json>
+}
+
+endpoint Dataset : DATA {
+    tech: XML 
+    schema: <http://www.example.com/schemas/domainmodel.xsd>
+    file: "testdata/data.xml"
+    dir: ("testdata/files/", "*.xml", recursive)
+}
+
+correspondence Correspondence (Webservice, Dataset) {
+    identify (Webservice.string, Dataset.string) as string
+    identify (Webservice.User, Dataset.Customer) as ClientEntity with {
+        identify (Webservice.User.id, Dataset.Customer.customer_id) as id
+        synchronize (Webservice.User.email, Dataset.Customer.email_address)
+    }
+    synchronize (Webservice."/users".GET, Dataset.Customer.all)
+}
+
+view SchemaView (Correspondence) : DATA  {
+    tech: PUML
+    schema: "rendering.puml"
+}
+
+view AugmentedWebservice (Correspondence) : SERVICE {
+    tech: OPENAPI
+    url: <http://0.0.0.0:9000>
+}
+```
+![CorrLang System Architecture](./assets/figures/svg/Corrlang-architecture.svg){#fig-corrlang-arch}
+
+[^javaPlugins]: Plugins can still be developed in Java. In this case, plugins are packaged into `.jar` files 
+    and put on the `core-service` CLASSPATH. They are discovered in code through the `ServiceLoader`-interface.
+
+You can follow the roadmap to version 1.0 [directly on Codeber](https://codeberg.org/drstrudel/corrlang/milestone/86295)
+
 
 ### References 
 

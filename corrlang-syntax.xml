@@ -24,6 +24,7 @@
         <list name="instructions">
             <item>identify</item>
             <item>synchronize</item>
+            <item>sync</item>
             <item>relate</item>
         </list>
         <list name="builtin_directives">
